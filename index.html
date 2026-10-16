@@ -1,307 +1,507 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>新春贺岁</title>
-    <style>
-        body {
-            background-color: #FFE4E1;
-            font-family: "Microsoft YaHei", sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-            overflow: hidden;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>高明明 - Java开发工程师</title>
+  <style>
+    /* ========== Reset & Base ========== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: #f0f2f5;
+      color: #2c3e50;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative;
-            z-index: 1;
-        }
+    /* ========== Layout ========== */
+    .page-wrapper {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.08);
+      overflow: hidden;
+    }
 
-        h1 {
-            color: #D4341F;
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #FF4D4D, #FF8C00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-            transform-origin: center;
-            animation: bounce 2s infinite;
-        }
+    /* ========== Header ========== */
+    .header {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+      color: #fff;
+      padding: 48px 48px 40px;
+      position: relative;
+    }
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #60a5fa, #a78bfa, #60a5fa);
+    }
+    .header-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px; }
+    .header h1 { font-size: 32px; font-weight: 700; letter-spacing: 2px; }
+    .header .subtitle { font-size: 16px; opacity: .85; margin-top: 6px; font-weight: 400; }
+    .header .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 28px;
+      font-size: 14px;
+      opacity: .92;
+    }
+    .header .contact-grid span { white-space: nowrap; }
+    .contact-label { opacity: .7; margin-right: 4px; }
 
-        .greeting {
-            font-size: 1.5em;
-            color: #8B0000;
-            margin: 20px 0;
-        }
+    /* ========== Nav ========== */
+    .nav {
+      background: #fff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 0 48px;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .nav a {
+      display: inline-block;
+      padding: 14px 18px;
+      font-size: 14px;
+      color: #64748b;
+      font-weight: 500;
+      border-bottom: 2px solid transparent;
+      transition: all .2s;
+      white-space: nowrap;
+    }
+    .nav a:hover { color: #2563eb; text-decoration: none; border-bottom-color: #2563eb; }
 
-        .decoration {
-            font-size: 2em;
-            color: #FFD700;
-            margin: 15px 0;
-        }
+    /* ========== Content ========== */
+    .content { padding: 0 48px 48px; }
 
-        .wishes {
-            color: #B22222;
-            font-size: 1.2em;
-            line-height: 1.8;
-        }
+    /* ========== Section ========== */
+    .section { margin-top: 36px; }
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1e3a5f;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e5e7eb;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title .icon {
+      width: 28px; height: 28px;
+      background: linear-gradient(135deg, #2563eb, #60a5fa);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 14px; flex-shrink: 0;
+    }
 
-        /* 烟花动画样式 */
-        .firework {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            animation: explode 1s ease-out forwards;
-            z-index: 0;
-        }
+    /* ========== Skills ========== */
+    .skills-list { list-style: none; }
+    .skills-list li {
+      padding: 8px 0 8px 20px;
+      position: relative;
+      font-size: 14.5px;
+      line-height: 1.8;
+    }
+    .skills-list li::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 16px;
+      width: 8px; height: 8px;
+      background: #2563eb;
+      border-radius: 50%;
+    }
 
-        @keyframes explode {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
+    /* ========== Education ========== */
+    .edu-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14.5px;
+    }
+    .edu-table th {
+      background: #f8fafc;
+      padding: 10px 16px;
+      text-align: left;
+      font-weight: 600;
+      color: #475569;
+      border-bottom: 2px solid #e5e7eb;
+    }
+    .edu-table td {
+      padding: 10px 16px;
+      border-bottom: 1px solid #f1f5f9;
+    }
 
-            100% {
-                transform: scale(20);
-                opacity: 0;
-            }
-        }
+    /* ========== Experience ========== */
+    .exp-item { margin-bottom: 24px; }
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .exp-company {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1e3a5f;
+    }
+    .exp-date {
+      font-size: 13px;
+      color: #94a3b8;
+      background: #f8fafc;
+      padding: 2px 10px;
+      border-radius: 12px;
+    }
+    .exp-list { list-style: none; }
+    .exp-list li {
+      padding: 4px 0 4px 18px;
+      position: relative;
+      font-size: 14.5px;
+    }
+    .exp-list li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: #2563eb;
+    }
 
-        .firework:nth-child(1) {
-            background: #ff0000;
-            top: 20%;
-            left: 20%;
-        }
+    /* ========== Projects ========== */
+    .project-card {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 24px 28px;
+      margin-bottom: 24px;
+      transition: box-shadow .2s;
+    }
+    .project-card:hover { box-shadow: 0 4px 16px rgba(37,99,235,.08); }
+    .project-name {
+      font-size: 17px;
+      font-weight: 700;
+      color: #1e3a5f;
+      margin-bottom: 10px;
+    }
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .tech-tag {
+      background: #e0e7ff;
+      color: #3730a3;
+      font-size: 12px;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-weight: 500;
+    }
+    .project-desc {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 14px;
+      line-height: 1.8;
+    }
+    .project-sub { font-weight: 600; color: #334155; font-size: 14px; margin: 12px 0 6px; }
+    .project-card ul { list-style: none; }
+    .project-card ul li {
+      padding: 3px 0 3px 18px;
+      position: relative;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .project-card ul li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: #2563eb;
+    }
+    .highlight-list li { color: #475569; }
+    .highlight-list strong { color: #1e3a5f; }
 
-        .firework:nth-child(2) {
-            background: #ffd700;
-            top: 30%;
-            right: 20%;
-            animation-delay: 0.3s;
-        }
+    /* ========== Self Evaluation ========== */
+    .eval-text {
+      background: #f8fafc;
+      border-left: 4px solid #2563eb;
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      font-size: 14.5px;
+      line-height: 1.9;
+      color: #475569;
+    }
 
-        .firework:nth-child(3) {
-            background: #ff69b4;
-            top: 15%;
-            left: 50%;
-            animation-delay: 0.7s;
-        }
+    /* ========== Footer ========== */
+    .footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 13px;
+      color: #94a3b8;
+      border-top: 1px solid #f1f5f9;
+    }
 
-        .firework:nth-child(4) {
-            background: #00ff00;
-            top: 40%;
-            right: 30%;
-            animation-delay: 1s;
-        }
+    /* ========== Print ========== */
+    @media print {
+      body { background: #fff; }
+      .page-wrapper { box-shadow: none; margin: 0; border-radius: 0; }
+      .nav { display: none; }
+      .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .project-card { break-inside: avoid; }
+    }
 
-        /* 添加闪烁动画 */
-        @keyframes twinkle {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        .wishes p {
-            animation: twinkle 2s infinite;
-        }
-
-        .wishes p:nth-child(2) {
-            animation-delay: 0.5s;
-        }
-
-        .wishes p:nth-child(3) {
-            animation-delay: 1s;
-        }
-
-        /* 跳动的文字动画 */
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        /* 旋转动画 */
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .decoration span {
-            display: inline-block;
-            margin: 0 5px;
-            animation: bounce 1s infinite;
-        }
-
-        .decoration span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .decoration span:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        /* 音乐控制按钮样式 */
-        .music-control {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s;
-        }
-
-        .music-control:hover {
-            transform: scale(1.1);
-        }
-
-        .music-control.playing {
-            animation: spin 5s linear infinite;
-        }
-    </style>
+    /* ========== Responsive ========== */
+    @media (max-width: 640px) {
+      .page-wrapper { margin: 0; border-radius: 0; }
+      .header { padding: 32px 20px 28px; }
+      .header h1 { font-size: 26px; }
+      .header .contact-grid { grid-template-columns: 1fr; }
+      .nav { padding: 0 16px; }
+      .nav a { padding: 12px 12px; font-size: 13px; }
+      .content { padding: 0 20px 32px; }
+      .project-card { padding: 18px 18px; }
+    }
+  </style>
 </head>
-
 <body>
-    <!-- 初始烟花元素 -->
-    <div class="firework"></div>
-    <div class="firework"></div>
-    <div class="firework"></div>
-    <div class="firework"></div>
 
-    <div class="music-control" id="musicControl">🎵</div>
+<div class="page-wrapper">
 
-    <div class="container">
-        <div class="decoration">
-            <span>🏮</span>
-            <span>🎊</span>
-            <span>🧨</span>
-        </div>
-        <h1>新春大吉 龙年昌盛</h1>
-        <div class="greeting">祝您</div>
-        <div class="wishes">
-            <p>龙腾虎跃展宏图 🐲</p>
-            <p>事业腾飞创新高 ⭐</p>
-            <p>身体健康精神旺 💪</p>
-            <p>开开心心每一天 😊</p>
-        </div>
-        <div class="decoration">
-            <span>🧧</span>
-            <span>🎋</span>
-            <span>💮</span>
-        </div>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-top">
+      <div>
+        <h1>高明明</h1>
+        <div class="subtitle">Java 开发工程师 · 6年经验</div>
+      </div>
+      <div class="contact-grid">
+        <span><span class="contact-label">电话：</span>15655850317</span>
+        <span><span class="contact-label">邮箱：</span>aiming317@126.com</span>
+        <span><span class="contact-label">出生：</span>1996-03</span>
+        <span><span class="contact-label">现居：</span>合肥市蜀山区</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <a href="#skills">专业技能</a>
+    <a href="#education">教育背景</a>
+    <a href="#experience">工作经历</a>
+    <a href="#projects">项目经历</a>
+    <a href="#evaluation">自我评价</a>
+  </nav>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- 求职意向 -->
+    <div class="section">
+      <div class="section-title"><span class="icon">✦</span>求职意向</div>
+      <p>Java 开发相关工作（接受全栈）&nbsp;&nbsp;|&nbsp;&nbsp;期望薪资：14K</p>
     </div>
 
-    <script>
-        function createFirework() {
-            const firework = document.createElement('div');
-            firework.className = 'firework';
+    <!-- 专业技能 -->
+    <div class="section" id="skills">
+      <div class="section-title"><span class="icon">◆</span>专业技能</div>
+      <ul class="skills-list">
+        <li>具备扎实的 Java 基础，具有良好的编码习惯</li>
+        <li>有 ERP、环保、物联网领域后端（Java）、前端（Vue）、APP（非原生）开发经验</li>
+        <li>熟练使用 MySQL、SqlServer、达梦、人大金仓等关系型数据库，熟悉 Redis、MongoDB 非关系型数据库</li>
+        <li>熟练掌握 SQL 语言，具备 MySQL、SqlServer 索引优化、查询优化的能力</li>
+        <li>熟练使用 SpringBoot、Mybatis、Flowable、Redis、MongoDB、Vue 等主流框架</li>
+        <li>熟练运用 IDEA、WebStorm 开发工具，Maven 项目管理工具，Git、SVN 版本控制工具</li>
+        <li>熟练使用 Kettle 工具进行数据清洗、数据迁移</li>
+        <li>了解 Linux 运维知识，有 Linux 下环境搭建部署经验，能独立在 Linux 环境下部署系统应用及运维</li>
+        <li>有负责系统设计、研发和带队经验</li>
+        <li>积极拥抱 AI 技术，熟练运用 ChatGPT、Qoder 等 AI 编程助手，具备 Prompt 工程实践经验，将 AI 深度融入研发全流程，显著提升开发效率</li>
+      </ul>
+    </div>
 
-            // 随机位置
-            firework.style.left = Math.random() * 100 + '%';
-            firework.style.top = Math.random() * 100 + '%';
+    <!-- 教育背景 -->
+    <div class="section" id="education">
+      <div class="section-title"><span class="icon">◆</span>教育背景</div>
+      <table class="edu-table">
+        <thead>
+          <tr><th>类型</th><th>学校</th><th>时间</th><th>专业</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>第二学历</td><td>安徽大学</td><td>2022/3 - 2024/7</td><td>计算机科学与技术</td></tr>
+          <tr><td>第一学历</td><td>安徽邮电职业技术学院</td><td>2015/9 - 2018/7</td><td>通信工程</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-            // 随机颜色
-            const colors = ['#ff0000', '#ffd700', '#ff69b4', '#00ff00', '#ff4500', '#ff1493', '#ffa500'];
-            firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+    <!-- 工作经历 -->
+    <div class="section" id="experience">
+      <div class="section-title"><span class="icon">◆</span>工作经历</div>
 
-            document.body.appendChild(firework);
+      <div class="exp-item">
+        <div class="exp-header">
+          <span class="exp-company">安徽瀚医健康管理有限公司</span>
+          <span class="exp-date">2025.12 - 2026.10</span>
+        </div>
+        <ul class="exp-list">
+          <li>TPA 瀚银通、支付开发维护</li>
+          <li>BI 数据管理</li>
+        </ul>
+      </div>
 
-            // 动画结束后删除元素
-            setTimeout(() => {
-                firework.remove();
-            }, 1000);
-        }
+      <div class="exp-item">
+        <div class="exp-header">
+          <span class="exp-company">安徽环境智能科技有限公司</span>
+          <span class="exp-date">2021.10 - 2025.12</span>
+        </div>
+        <ul class="exp-list">
+          <li>数据联网上报系统设计开发</li>
+          <li>证据链系统文件管理模块设计、开发</li>
+          <li>固废电子秤平台设计、开发</li>
+          <li>集团公司 ERP 系统相关模块设计、开发</li>
+        </ul>
+      </div>
 
-        // 每隔一段时间创建新烟花
-        setInterval(createFirework, 800);
+      <div class="exp-item">
+        <div class="exp-header">
+          <span class="exp-company">深圳市博安达信息技术股份有限公司</span>
+          <span class="exp-date">2019.3 - 2021.10</span>
+        </div>
+        <ul class="exp-list">
+          <li>驻场环保厅负责对接技术问题</li>
+          <li>移动执法系统、智慧环保、在线监控系统等系统开发、运维</li>
+        </ul>
+      </div>
 
-        // 添加鼠标悬停音效
-        const wishes = document.querySelectorAll('.wishes p');
-        const audio = new Audio('data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjI5LjEwMAAAAAAAAAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAAEAAABIADAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV6urq6urq6urq6urq6urq6urq6urq6urq6v////////////////////////////////8AAAAATGF2YzU4LjU0AAAAAAAAAAAAAAAAJAAAAAAAAAAAASDs90hvAAAAAAAAAAAAAAAAAAAA//MUZAAAAAGkAAAAAAAAA0gAAAAATEFN//MUZAMAAAGkAAAAAAAAA0gAAAAARTMu//MUZAYAAAGkAAAAAAAAA0gAAAAAOTku//MUZAkAAAGkAAAAAAAAA0gAAAAANVVV');
+      <div class="exp-item">
+        <div class="exp-header">
+          <span class="exp-company">安徽逸路安科技股份有限公司</span>
+          <span class="exp-date">2018.10 - 2019.2</span>
+        </div>
+        <ul class="exp-list">
+          <li>协助开发公交 ERP 系统客服管理模块</li>
+          <li>协助开发公交一卡通系统结算报表接口</li>
+        </ul>
+      </div>
+    </div>
 
-        wishes.forEach(wish => {
-            wish.addEventListener('mouseover', () => {
-                audio.currentTime = 0;
-                audio.play();
-                wish.style.transform = 'scale(1.1)';
-                wish.style.transition = 'transform 0.3s';
-            });
+    <!-- 项目经历 -->
+    <div class="section" id="projects">
+      <div class="section-title"><span class="icon">◆</span>项目经历</div>
 
-            wish.addEventListener('mouseout', () => {
-                wish.style.transform = 'scale(1)';
-            });
-        });
+      <!-- 项目一 -->
+      <div class="project-card">
+        <div class="project-name">省生态环境产业集团综合平台</div>
+        <div class="project-tech">
+          <span class="tech-tag">Linux</span>
+          <span class="tech-tag">kingBase</span>
+          <span class="tech-tag">minio</span>
+          <span class="tech-tag">SpringBoot</span>
+          <span class="tech-tag">MybatisPlus</span>
+          <span class="tech-tag">sa-token</span>
+          <span class="tech-tag">Flowable</span>
+          <span class="tech-tag">Redis</span>
+          <span class="tech-tag">Vue3</span>
+          <span class="tech-tag">Ant Design</span>
+        </div>
+        <div class="project-desc">大集团综合 ERP 集成化软件系统，涵盖统一门户、人力资源、财务管理、监督系统、电子招采等模块，帮助大型企业集团管理内部资源、业务流程和数据，优化资源配置。</div>
+        <div class="project-sub">任务与责任</div>
+        <ul>
+          <li>搭建部署环境：Linux 安装 kingBase、minio，部署系统、运维开发库表</li>
+          <li>党建模块：党组织管理、党员活动和党务工作数字化管理；对接工商银行接口实现党费收缴；基于 Flowable 实现党费支出审批</li>
+          <li>人力资源招聘模块：从招聘需求到录用的全流程系统化办理；对接微信公众号和短信推送；基于 Flowable 实现招聘审批流程</li>
+        </ul>
+        <div class="project-sub">项目亮点</div>
+        <ul class="highlight-list">
+          <li><strong>国产数据库适配：</strong>采用人大金仓（kingBase），满足信创合规要求</li>
+          <li><strong>工作流引擎深度应用：</strong>基于 Flowable 实现多条业务审批链路，灵活配置流程节点</li>
+          <li><strong>多渠道第三方对接：</strong>工商银行 API、微信公众号、短信网关等多类型外部系统集成</li>
+          <li><strong>全栈模块化开发：</strong>独立完成从需求调研、库表设计到前后端开发的全流程</li>
+        </ul>
+      </div>
 
-        // 背景音乐控制
-        const musicControl = document.getElementById('musicControl');
-        const bgMusic = new Audio('music/枫-周杰伦.mp3');
-        bgMusic.loop = true; // 循环播放
+      <!-- 项目二 -->
+      <div class="project-card">
+        <div class="project-name">全国环境空气自动检测数据联网上报</div>
+        <div class="project-tech">
+          <span class="tech-tag">Linux</span>
+          <span class="tech-tag">Docker</span>
+          <span class="tech-tag">MySQL</span>
+          <span class="tech-tag">RabbitMQ</span>
+          <span class="tech-tag">SpringBoot</span>
+          <span class="tech-tag">MybatisPlus</span>
+          <span class="tech-tag">Netty</span>
+          <span class="tech-tag">Sharding-JDBC</span>
+          <span class="tech-tag">Vue3</span>
+          <span class="tech-tag">Element-Plus</span>
+        </div>
+        <div class="project-desc">面向地表水、环境空气、噪声自动监测站，采集全省各级监测站数据，实现监测数据采集、联网、审核、统计分析等功能，实现省级统一联网监管。</div>
+        <div class="project-sub">任务与责任</div>
+        <ul>
+          <li>基于 Docker 搭建模拟省厅部署环境，搭建 MySQL 主从模式</li>
+          <li>搭建 air-server：整合 Netty 接收原始报文，RabbitMQ 消息分发，Sharding-JDBC 按季度分表</li>
+          <li>搭建 air-client：整合 RabbitMQ 开发 HJ212 协议解析，按月份分表入库</li>
+          <li>搭建 air-view 前后端分离项目，展示统计空气质量数据</li>
+        </ul>
+        <div class="project-sub">项目亮点</div>
+        <ul class="highlight-list">
+          <li><strong>高并发数据采集：</strong>Netty 构建高性能 TCP 长连接服务，支撑大规模设备并发接入</li>
+          <li><strong>消息队列削峰解耦：</strong>RabbitMQ 实现采集与解析异步解耦，保障高峰期稳定性</li>
+          <li><strong>分库分表海量存储：</strong>Sharding-JDBC 按季度/月份分表，有效应对数据持续增长</li>
+          <li><strong>Docker 容器化部署：</strong>MySQL 主从复制架构，实现数据读写分离与高可用</li>
+          <li><strong>CompletableFuture 并发优化：</strong>多维度数据查询并行执行，显著降低接口响应时间</li>
+          <li><strong>HJ212 协议解析：</strong>深度对接环保行业标准协议，实现多类型监测数据标准化解析</li>
+        </ul>
+      </div>
 
-        let isPlaying = false;
+      <!-- 项目三 -->
+      <div class="project-card">
+        <div class="project-name">移动执法子系统 —— 证据链系统</div>
+        <div class="project-tech">
+          <span class="tech-tag">SpringBoot</span>
+          <span class="tech-tag">Shiro</span>
+          <span class="tech-tag">MybatisPlus</span>
+          <span class="tech-tag">minio</span>
+          <span class="tech-tag">MySQL</span>
+          <span class="tech-tag">Vue3</span>
+          <span class="tech-tag">Element-Plus</span>
+        </div>
+        <div class="project-desc">移动执法系统结合移动互联技术，支持手机端、Pad 端、Web 端多平台操作，将执法工作与智能终端无缝结合，构建智能执法监督体系。支持现场笔录、取证上传、证据链保存与案件索引生成。</div>
+        <div class="project-sub">任务与责任</div>
+        <ul>
+          <li>实现文件上传、断点续传、大文件分片上传、留痕等后端接口设计及开发</li>
+          <li>实现文件分享、下载，设置过期时间、提取码、分享人、数据权限控制、下载留痕等功能</li>
+        </ul>
+        <div class="project-sub">项目亮点</div>
+        <ul class="highlight-list">
+          <li><strong>大文件上传方案：</strong>断点续传与分片上传，解决弱网环境下大体积证据文件传输问题</li>
+          <li><strong>文件安全分享机制：</strong>过期时间、提取码、指定分享人、数据权限控制，保障证据安全</li>
+          <li><strong>操作留痕与审计追踪：</strong>全链路留痕，满足执法证据链完整性与可追溯性要求</li>
+          <li><strong>MinIO 对象存储集成：</strong>私有化对象存储服务，适配政务场景数据安全要求</li>
+        </ul>
+      </div>
+    </div>
 
-        // 添加自动播放失败的处理
-        bgMusic.addEventListener('play', () => {
-            isPlaying = true;
-            musicControl.classList.add('playing');
-        });
+    <!-- 自我评价 -->
+    <div class="section" id="evaluation">
+      <div class="section-title"><span class="icon">◆</span>自我评价</div>
+      <div class="eval-text">
+        本人拥有 6 年 Java 开发经验，参与过 ERP、环保、物联网等多个领域项目的全栈开发，熟悉从需求分析到系统上线的完整研发流程。热衷于技术钻研，持续关注行业新技术动态，具备较强的自驱学习能力。积极拥抱 AI 浪潮，善于利用 ChatGPT、Qoder 等 AI 工具加速开发与学习，践行 AI 赋能研发的理念。在团队协作中注重沟通效率与交付质量，有独立负责模块设计与带队推进项目的经验。面对复杂问题能够冷静分析、独立定位并解决，具备较强的抗压能力与责任心。适应能力强，接受出差，愿与团队共同成长。
+      </div>
+    </div>
 
-        bgMusic.addEventListener('pause', () => {
-            isPlaying = false;
-            musicControl.classList.remove('playing');
-        });
+  </div>
 
-        musicControl.addEventListener('click', () => {
-            if (isPlaying) {
-                bgMusic.pause();
-            } else {
-                bgMusic.play().catch(error => {
-                    console.log("自动播放被阻止，需要用户手动触发");
-                });
-            }
-        });
+  <!-- Footer -->
+  <div class="footer">
+    &copy; 2026 高明明 &nbsp;|&nbsp; 本简历使用 GitHub Pages 托管
+  </div>
 
-        // 页面加载完成后尝试自动播放
-        document.addEventListener('DOMContentLoaded', () => {
-            bgMusic.play().catch(error => {
-                console.log("自动播放被阻止，需要用户手动触发");
-            });
-        });
-    </script>
+</div>
+
 </body>
-
 </html>
